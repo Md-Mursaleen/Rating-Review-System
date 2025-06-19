@@ -1,12 +1,12 @@
 'use client'
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 import Main from "./components/Main";
-import { MainHeading } from "./style/Card";
 import axios from "axios";
 
 export default function Home() {
-  const [data, setData] = useState([])   
-  const [loading, setLoading] = useState(false)                 
+  const [data, setData] = useState([])
+  const [loading, setLoading] = useState(false)
+
   useEffect(() => {
     async function getData() {
       setLoading(true);
@@ -20,12 +20,13 @@ export default function Home() {
         setLoading(false);
       }
     }
-      getData();
+
+    getData();
   }, []);
+
   return (
     <>
-     {console.log("data", data)}
-     <Main data={data} />
+      <Main data={data} />
     </>
   );
 }

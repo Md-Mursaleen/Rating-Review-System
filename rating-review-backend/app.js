@@ -7,7 +7,7 @@ const Product = require('./init/Product');
 const Review = require('./init/Review');
 
 app.use(express.json());
-app.use(cors()); 
+app.use(cors());
 
 const products = [
   {
@@ -92,9 +92,6 @@ const products = [
   }
 ];
 
-
-
-
 const PORT = process.env.PORT;
 
 async function main() {
@@ -103,28 +100,23 @@ async function main() {
 main().then(res => console.log("connected"));
 main().catch(err => console.log(err));
 
-app.listen(PORT , (req, res) => {
+app.listen(PORT, (req, res) => {
   console.log("listening");
 })
 
-
-
-app.get('/',async(req,res)=>{
-try {
-    // await Product.deleteMany();
-    // await Product.insertMany(products);
+app.get('/', async (req, res) => {
+  try {
     const products = await Product.find();
     res.json(products);
-    res.send("hi")
   } catch (err) {
     res.status(500).json({ error: 'Server error' });
   }
 })
 
-app.get('/single-product/:id', async (req, res) => {
+app.get('/product/:id', async (req, res) => {
   try {
     const productId = parseInt(req.params.id);
-    const product = await Product.findOne({id:productId});
+    const product = await Product.findOne({ id: productId });
 
     if (!product) {
       return res.status(404).json({ error: "Product not found" });
@@ -132,8 +124,8 @@ app.get('/single-product/:id', async (req, res) => {
 
     res.status(200).json(product);
   }
-  catch (err){
-   console.error("Error fetching product:", err);
+  catch (err) {
+    console.error("Error fetching product:", err);
     res.status(500).json({ error: "Server error" });
   }
 })
@@ -175,11 +167,10 @@ app.post('/review-submitted', async (req, res) => {
     const savedReview = await newReview.save();
 
     console.log(savedReview);
-    return res.status(201).json({ message: "Review submitted successfully!" }); 
-    
+    return res.status(201).json({ message: "Review submitted successfully!" });
+
   } catch (err) {
     console.error(err);
     return res.status(500).json({ error: "Server error" });
   }
 });
-

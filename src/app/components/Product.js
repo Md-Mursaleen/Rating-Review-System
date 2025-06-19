@@ -1,16 +1,10 @@
 import Image from "next/image";
-import {
-  CardContent,
-  CardHeading,
-  ImageWrapper,
-  PriceHeading,
-  StarDiv,
-} from "../style/Card";
+import { CardContent, CardHeading, ImageWrapper, PriceHeading, StarDiv } from "../style/Card";
 import { Button, OuterDiv, ReviewBox, StyledHr } from "../style/SingleCard";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
-export default function SingleProduct({ id, data }) {
+export default function Product({ id, data }) {
   const [review, setReview] = useState("");
   const [reviews, setReviews] = useState([]);
   const [rating, setRating] = useState(0);
@@ -31,7 +25,6 @@ export default function SingleProduct({ id, data }) {
   useEffect(() => {
     if (!id) return;
     const getReviews = async () => {
-       console.log("id in single product functoon", id);
       const res = await axios.get(`http://localhost:8080/reviews/${id}`);
       const data = res.data;
       console.log("ress in sin", data);
@@ -74,28 +67,21 @@ export default function SingleProduct({ id, data }) {
     <OuterDiv>
       {data && typeof data === 'object' && Object.keys(data).length > 0 && (
         <>
-      <ImageWrapper>
-        <Image
-          src={data.src}
-          alt="img"
-          fill
-        />
-      </ImageWrapper>
-      <CardContent className="single-pro-content">
-        <CardHeading className="single-pro-heading">
-          {data.name}
-        </CardHeading>
-        <PriceHeading className="single-pro-price">
-          <span
-            style={{ fontFamily: "'Roboto', 'Segoe UI', 'Arial', sans-serif" }}
-          >
-            ₹ {data.price}
-          </span>
-        </PriceHeading>
-        <StarDiv>
-           {[...Array(5)].map((_, i) => (
-                <span
-                  key={i}
+          <ImageWrapper>
+            <Image src={data.src} alt="img" fill />
+          </ImageWrapper>
+          <CardContent className="single-pro-content">
+            <CardHeading className="single-pro-heading">
+              {data.name}
+            </CardHeading>
+            <PriceHeading className="single-pro-price">
+              <span style={{ fontFamily: "'Roboto', 'Segoe UI', 'Arial', sans-serif" }}>
+                ₹ {data.price}
+              </span>
+            </PriceHeading>
+            <StarDiv>
+              {[...Array(5)].map((_, i) => (
+                <span key={i}
                   style={{
                     color: i < Number(data.rating) ? "#ffc107" : "#e4e5e9",
                     fontSize: "1.5rem",
@@ -104,12 +90,12 @@ export default function SingleProduct({ id, data }) {
                   ★
                 </span>
               ))}
-        </StarDiv>
-      </CardContent>
-      </>
+            </StarDiv>
+          </CardContent>
+        </>
       )}
 
-       <StyledHr />
+      <StyledHr />
 
       <h2>Leave a Review</h2>
       <form onSubmit={handleSubmit}>
@@ -171,35 +157,30 @@ export default function SingleProduct({ id, data }) {
           ✅ Review submitted successfully!
         </p>
       )}
-      
 
-     {reviews?.length > 0 && (
+
+      {reviews?.length > 0 && (
         <>
-        <StyledHr />
-        <div
-        style={{ overflowX: "auto", whiteSpace: "nowrap", padding: "1rem 0" }}
-      >
-        {reviews.map((rev, idx) => (
-          <ReviewBox
-            key={idx}
-          >
-            <h4 style={{ marginBottom: "0.5rem" }}>{rev.name}</h4>
-            <div style={{ color: "#ffc107", marginBottom: "0.5rem" }}>
-              {Array.from({ length: rev.rating }, (_, i) => (
-                <span key={i}>★</span>
-              ))}
-              {Array.from({ length: 5 - rev.rating }, (_, i) => (
-                <span key={i}>☆</span>
-              ))}
-            </div>
-            <p style={{ fontStyle: "italic" }}>{rev.review}</p>
-            <small>{new Date(rev.createdAt).toLocaleDateString()}</small>
-          </ReviewBox>
-        ))}
-      </div>
-      </>
-     )}
-     
+          <StyledHr />
+          <div style={{ overflowX: "auto", whiteSpace: "nowrap", padding: "1rem 0" }}>
+            {reviews.map((rev, idx) => (
+              <ReviewBox key={idx}>
+                <h4 style={{ marginBottom: "0.5rem" }}>{rev.name}</h4>
+                <div style={{ color: "#ffc107", marginBottom: "0.5rem" }}>
+                  {Array.from({ length: rev.rating }, (_, i) => (
+                    <span key={i}>★</span>
+                  ))}
+                  {Array.from({ length: 5 - rev.rating }, (_, i) => (
+                    <span key={i}>☆</span>
+                  ))}
+                </div>
+                <p style={{ fontStyle: "italic" }}>{rev.review}</p>
+                <small>{new Date(rev.createdAt).toLocaleDateString()}</small>
+              </ReviewBox>
+            ))}
+          </div>
+        </>
+      )}
     </OuterDiv>
   );
 }

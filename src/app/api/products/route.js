@@ -1,12 +1,12 @@
-import axios from "axios";
 import { promises as fs } from "fs";
+import axios from "axios";
 import path from "path";
 
 export const dynamic = 'force-dynamic';
 
-let isApiFailed = false; 
+let isApiFailed = false;
 
-export const GET = async (req, res) => {
+export const GET = async () => {
   if (isApiFailed) {
     return serveLocalData();
   }

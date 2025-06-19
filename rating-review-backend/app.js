@@ -3,6 +3,8 @@ const express = require('express')
 const app = express()
 const cors = require('cors');
 const mongoose = require('mongoose');
+const multer = require('multer');
+const path = require('path');
 const Product = require('./init/Product');
 const Review = require('./init/Review');
 
@@ -20,6 +22,19 @@ main().catch(err => console.log(err));
 app.listen(PORT, (req, res) => {
   console.log("listening");
 })
+
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, 'uploads/');
+  },
+  filename: (req, file, cb) => {
+    cb(null, Date.now() + path.extname(file.originalname));
+  }
+});
+
+const upload = multer({ storage: storage });
+
+app.use('/uploads', express.static('uploads'));
 
 app.get('/', async (req, res) => {
   try {
@@ -59,9 +74,10 @@ app.get('/reviews/:id', async (req, res) => {
   }
 });
 
-app.post('/review-submitted', async (req, res) => {
+app.post('/review-submitted', upload.array('photos', 5), async (req, res) => {
   try {
     const { name, rating, review, id } = req.body;
+    const photoUrls = req.files ? req.files.map(file => `uploads/${file.filename}`) : [];
 
     const isRatingEmpty = rating === null || rating === undefined || rating === 0;
     const isReviewEmpty = !review || review.trim() === "";
@@ -79,6 +95,7 @@ app.post('/review-submitted', async (req, res) => {
       rating: isRatingEmpty ? undefined : rating,
       review: isReviewEmpty ? undefined : review,
       id,
+      photos: photoUrls
     });
 
     const savedReview = await newReview.save();

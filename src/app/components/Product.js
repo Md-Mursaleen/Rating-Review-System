@@ -11,6 +11,7 @@ export default function Product({ id, data }) {
   const [name, setName] = useState("");
   const [hover, setHover] = useState(0);
   const [submitted, setSubmitted] = useState(false);
+  const [photos, setPhotos] = useState([]);
 
   useEffect(() => {
     if (submitted) {
@@ -34,20 +35,26 @@ export default function Product({ id, data }) {
     getReviews();
   }, [id, submitted]);
 
+  const handlePhotoUpload = (e) => {
+    const files = Array.from(e.target.files);
+    setPhotos(files);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    const formData = new FormData();
+    formData.append('name', name);
+    formData.append('rating', rating);
+    formData.append('review', review);
+    formData.append('id', id);
+    photos.forEach(photo => {
+      formData.append('photos', photo);
+    });
+
     const res = await fetch("http://localhost:8080/review-submitted", {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        name,
-        rating,
-        review,
-        id,
-      }),
+      body: formData,
     });
 
     const data = await res.json();
@@ -57,6 +64,7 @@ export default function Product({ id, data }) {
       setName("");
       setRating(0);
       setReview("");
+      setPhotos([]);
       setSubmitted(true);
     } else {
       alert("Error: " + data.error);
@@ -105,6 +113,20 @@ export default function Product({ id, data }) {
           onChange={(e) => setName(e.target.value)}
           placeholder="Your Name"
           required
+          style={{
+            width: "100%",
+            padding: "0.8rem",
+            marginBottom: "1rem",
+            borderRadius: "6px",
+            border: "1px solid #ccc",
+            boxSizing: "border-box"
+          }}
+        />
+        <input
+          type="file"
+          multiple
+          accept="image/*"
+          onChange={handlePhotoUpload}
           style={{
             width: "100%",
             padding: "0.8rem",
@@ -175,6 +197,25 @@ export default function Product({ id, data }) {
                   ))}
                 </div>
                 <p style={{ fontStyle: "italic" }}>{rev.review}</p>
+                {rev.photos && rev.photos.length > 0 && (
+                  <div style={{ 
+                    display: "flex",
+                    marginTop: "1rem",
+                    overflowX: "auto",
+                    gap: "10px"
+                  }}>
+                    {rev.photos.map((photo, photoIdx) => (
+                      <div key={photoIdx} style={{ position: "relative", width: "100px", height: "100px" }}>
+                        <Image
+                          src={`http://localhost:8080/${photo}`}
+                          alt={`Review photo ${photoIdx + 1}`}
+                          fill
+                          style={{ objectFit: "cover" }}
+                        />
+                      </div>
+                    ))}
+                  </div>
+                )}
                 <small>{new Date(rev.createdAt).toLocaleDateString()}</small>
               </ReviewBox>
             ))}

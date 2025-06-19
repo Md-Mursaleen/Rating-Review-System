@@ -1,36 +1,98 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Rating-Review-System
 
-## Getting Started
+This project is a full-stack application for product ratings and reviews, built with [Next.js](https://nextjs.org) for the frontend and [Node.js/Express.js](https://expressjs.com/) for the backend.
 
-First, run the development server:
+---
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## Project Structure
+
+```
+rating-review-system/
+├── rating-review-backend/                     # Node.js/Express.js backend
+├── rating-review-backend/package.json         # Backend dependencies and scripts
+├── src/                                       # Next.js frontend (app directory)
+├── public/                                    # Static assets and static product data
+├── .env                                       # Backend environment variables (in backend folder)
+├── package.json                               # Frontend dependencies and scripts
+└── README.md                                  # Project documentation
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+## Prerequisites
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- [Node.js](https://nodejs.org/) (v16+ recommended)
+- [npm](https://www.npmjs.com/) or [yarn](https://yarnpkg.com/)
+- [MongoDB](https://www.mongodb.com/) instance (local or cloud)
 
-## Learn More
+---
 
-To learn more about Next.js, take a look at the following resources:
+## Setup Instructions
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### 1. Clone the Repository
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```sh
+git clone https://github.com/Md-Mursaleen/Rating-Review-System.git
+```
 
-## Deploy on Vercel
+### 2. Setup and Run the Backend
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+1. Go to the backend directory:
+    ```sh
+    cd rating-review-backend
+    ```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+2. Install dependencies:
+    ```sh
+    npm install
+    ```
+
+3. Create a `.env` file in `rating-review-backend/` with the following content:
+    ```
+    PORT=8080
+    MONGO_URL=<your-mongodb-connection-string>
+    ```
+    Replace `<your-mongodb-connection-string>` with your actual MongoDB URI.
+
+4. Start the backend server:
+    ```sh
+    node app.js
+    ```
+    The backend will run on [http://localhost:8080](http://localhost:8080).
+
+### 3. Setup and Run the Frontend
+
+1. Go back to the root directory:
+    ```sh
+    cd ..
+    ```
+
+2. Install frontend dependencies:
+    ```sh
+    npm install
+    ```
+
+3. Start the Next.js development server:
+    ```sh
+    npm run dev
+    ```
+    The frontend will run on [http://localhost:3000](http://localhost:3000).
+
+---
+
+## Testing the Application
+
+- Open [http://localhost:3000](http://localhost:3000) in your browser.
+- Browse products, view details, and submit reviews.
+- The frontend communicates with the backend for product and review data.
+
+---
+
+## Notes
+
+- The backend requires a valid `.env` file with your MongoDB connection string.
+- If the backend is unavailable, the frontend will attempt to serve product data from `public/productsData.json`.
+- Make sure both servers (frontend and backend) are running for full functionality.
+- For deployment, see [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying).
+
+---

@@ -2,7 +2,7 @@ import { promises as fs } from "fs";
 import axios from "axios";
 import path from "path";
 
-export const dynamic = 'force-dynamic';
+export const dynamic = "force-dynamic";
 
 let isApiFailed = false;
 
@@ -39,7 +39,7 @@ const serveLocalData = async () => {
   } catch (fileError) {
     console.error("Failed to read local JSON file:", fileError.message);
 
-    return new Response(JSON.stringify({ error: 'Failed to fetch data' }), {
+    return new Response(JSON.stringify({ error: "Failed to fetch data" }), {
       status: 500,
       headers: { 'Content-Type': 'application/json' },
     });

@@ -1,14 +1,14 @@
-'use client'
+"use client";
 import { useState, useEffect } from "react";
 import Main from "./components/Main";
 import axios from "axios";
 
 export default function Home() {
-  const [data, setData] = useState([])
-  const [loading, setLoading] = useState(false)
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    async function getData() {
+    async function getProductsData() {
       setLoading(true);
       try {
         let res = await axios.get(`/api/products`);
@@ -21,7 +21,7 @@ export default function Home() {
       }
     }
 
-    getData();
+    getProductsData();
   }, []);
 
   return (

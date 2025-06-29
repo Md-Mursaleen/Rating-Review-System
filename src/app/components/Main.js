@@ -7,5 +7,5 @@ export default function Main({ data }) {
         <HeroSection>
             <Products data={data} />
         </HeroSection>
-    )
+    );
 }

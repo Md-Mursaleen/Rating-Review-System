@@ -21,7 +21,7 @@ main().catch(err => console.log(err));
 
 app.listen(PORT, (req, res) => {
   console.log("listening");
-})
+});
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -43,7 +43,7 @@ app.get('/', async (req, res) => {
   } catch (err) {
     res.status(500).json({ error: 'Server error' });
   }
-})
+});
 
 app.get('/product/:id', async (req, res) => {
   try {
@@ -55,12 +55,11 @@ app.get('/product/:id', async (req, res) => {
     }
 
     res.status(200).json(product);
-  }
-  catch (err) {
+  } catch (err) {
     console.error("Error fetching product:", err);
     res.status(500).json({ error: "Server error" });
   }
-})
+});
 
 app.get('/reviews/:id', async (req, res) => {
   try {

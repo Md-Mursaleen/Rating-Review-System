@@ -1,7 +1,7 @@
-import Image from "next/image";
+import { useEffect, useState } from "react";
 import { CardContent, CardHeading, ImageWrapper, PriceHeading, StarDiv } from "../style/Card";
 import { Button, OuterDiv, ReviewBox, StyledHr } from "../style/SingleCard";
-import { useEffect, useState } from "react";
+import Image from "next/image";
 import axios from "axios";
 
 export default function Product({ id, data }) {
@@ -25,10 +25,10 @@ export default function Product({ id, data }) {
 
   useEffect(() => {
     if (!id) return;
+
     const getReviews = async () => {
       const res = await axios.get(`http://localhost:8080/reviews/${id}`);
       const data = res.data;
-      console.log("ress in sin", data);
       setReviews(data);
     };
 
@@ -89,12 +89,7 @@ export default function Product({ id, data }) {
             </PriceHeading>
             <StarDiv>
               {[...Array(5)].map((_, i) => (
-                <span key={i}
-                  style={{
-                    color: i < Number(data.rating) ? "#ffc107" : "#e4e5e9",
-                    fontSize: "1.5rem",
-                  }}
-                >
+                <span key={i} style={{ fontSize: "1.5rem", color: i < Number(data.rating) ? "#ffc107" : "#e4e5e9" }}>
                   ★
                 </span>
               ))}
@@ -119,7 +114,7 @@ export default function Product({ id, data }) {
             marginBottom: "1rem",
             borderRadius: "6px",
             border: "1px solid #ccc",
-            boxSizing: "border-box"
+            boxSizing: "border-box",
           }}
         />
         <input
@@ -133,7 +128,7 @@ export default function Product({ id, data }) {
             marginBottom: "1rem",
             borderRadius: "6px",
             border: "1px solid #ccc",
-            boxSizing: "border-box"
+            boxSizing: "border-box",
           }}
         />
         <div style={{ marginBottom: "1rem" }}>
@@ -166,7 +161,7 @@ export default function Product({ id, data }) {
             borderRadius: "8px",
             border: "1px solid #ccc",
             resize: "vertical",
-            boxSizing: "border-box"
+            boxSizing: "border-box",
           }}
         />
         <br />
@@ -180,15 +175,14 @@ export default function Product({ id, data }) {
         </p>
       )}
 
-
       {reviews?.length > 0 && (
         <>
           <StyledHr />
-          <div style={{ overflowX: "auto", whiteSpace: "nowrap", padding: "1rem 0" }}>
+          <div style={{ padding: "1rem 0", overflowX: "auto", whiteSpace: "nowrap" }}>
             {reviews.map((rev, idx) => (
               <ReviewBox key={idx}>
                 <h4 style={{ marginBottom: "0.5rem" }}>{rev.name}</h4>
-                <div style={{ color: "#ffc107", marginBottom: "0.5rem" }}>
+                <div style={{ marginBottom: "0.5rem", color: "#ffc107" }}>
                   {Array.from({ length: rev.rating }, (_, i) => (
                     <span key={i}>★</span>
                   ))}
@@ -198,11 +192,11 @@ export default function Product({ id, data }) {
                 </div>
                 <p style={{ fontStyle: "italic" }}>{rev.review}</p>
                 {rev.photos && rev.photos.length > 0 && (
-                  <div style={{ 
+                  <div style={{
                     display: "flex",
                     marginTop: "1rem",
                     overflowX: "auto",
-                    gap: "10px"
+                    gap: "10px",
                   }}>
                     {rev.photos.map((photo, photoIdx) => (
                       <div key={photoIdx} style={{ position: "relative", width: "100px", height: "100px" }}>

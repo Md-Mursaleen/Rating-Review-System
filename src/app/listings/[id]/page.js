@@ -1,14 +1,14 @@
-'use client'
+"use client";
+import { use, useEffect, useState } from "react";
 import Product from "@/app/components/Product";
 import axios from "axios";
-import { use, useEffect, useState } from "react";
 
 const ProductPage = ({ params }) => {
   const { id } = use(params);
   const [data, setData] = useState([]);
 
   useEffect(() => {
-    async function getData() {
+    async function getProductDataById() {
       try {
         let res = await axios.get(`/api/product/${id}`);
         res = res.data;
@@ -18,7 +18,7 @@ const ProductPage = ({ params }) => {
       }
     }
 
-    getData();
+    getProductDataById();
   }, [id]);
 
   return <Product id={data.id} data={data} />;

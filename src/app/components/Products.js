@@ -28,12 +28,7 @@ export default function Products({ data }) {
             </PriceHeading>
             <StarDiv>
               {[...Array(5)].map((_, i) => (
-                <span key={i}
-                  style={{
-                    color: i < Number(res.rating) ? "#ffc107" : "#e4e5e9",
-                    fontSize: "1.5rem",
-                  }}
-                >
+                <span key={i} style={{ fontSize: "1.5rem", color: i < Number(res.rating) ? "#ffc107" : "#e4e5e9" }}>
                   ★
                 </span>
               ))}

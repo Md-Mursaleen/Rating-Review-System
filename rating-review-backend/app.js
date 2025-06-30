@@ -16,8 +16,7 @@ const PORT = process.env.PORT;
 async function main() {
   await mongoose.connect(process.env.MONGO_URL);
 }
-main().then(res => console.log("connected"));
-main().catch(err => console.log(err));
+main().then(() => console.log("connected")).catch(err => console.log(err));
 
 app.listen(PORT, (req, res) => {
   console.log("listening");
@@ -41,7 +40,7 @@ app.get('/', async (req, res) => {
     const products = await Product.find();
     res.json(products);
   } catch (err) {
-    res.status(500).json({ error: 'Server error' });
+    res.status(500).json({ error: "Server error" });
   }
 });
 
@@ -101,7 +100,6 @@ app.post('/review-submitted', upload.array('photos', 5), async (req, res) => {
 
     console.log(savedReview);
     return res.status(201).json({ message: "Review submitted successfully!" });
-
   } catch (err) {
     console.error(err);
     return res.status(500).json({ error: "Server error" });

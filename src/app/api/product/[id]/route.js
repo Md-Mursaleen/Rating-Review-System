@@ -6,6 +6,7 @@ export const GET = async (req, context) => {
   try {
     const { params } = context;
     const productId = parseInt(params.id);
+    console.log("Fetching product with ID:", productId);
 
     const response = await axios.get(`http://localhost:8080/product/${productId}`);
     const data = response.data;

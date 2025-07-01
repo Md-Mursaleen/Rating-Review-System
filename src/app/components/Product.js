@@ -12,6 +12,7 @@ export default function Product({ id, data }) {
   const [hover, setHover] = useState(0);
   const [submitted, setSubmitted] = useState(false);
   const [photos, setPhotos] = useState([]);
+  const [photoURLs, setPhotoURLs] = useState([]);
 
   useEffect(() => {
     if (submitted) {
@@ -38,7 +39,16 @@ export default function Product({ id, data }) {
   const handlePhotoUpload = (e) => {
     const files = Array.from(e.target.files);
     setPhotos(files);
+
+    const urls = files.map(file => URL.createObjectURL(file));
+    setPhotoURLs(urls);
   };
+
+  useEffect(() => {
+    return () => {
+      photoURLs.forEach(url => URL.revokeObjectURL(url));
+    };
+  }, [photoURLs]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -65,6 +75,7 @@ export default function Product({ id, data }) {
       setRating(0);
       setReview("");
       setPhotos([]);
+      setPhotoURLs([]);
       setSubmitted(true);
     } else {
       alert("Error: " + data.error);
@@ -131,6 +142,19 @@ export default function Product({ id, data }) {
             boxSizing: "border-box",
           }}
         />
+        {photoURLs.length > 0 && (
+          <div style={{ display: "flex", flexWrap: "wrap", marginBottom: "1rem", gap: "10px" }}>
+            {photoURLs.map((src, idx) => (
+              <div key={idx} style={{ position: "relative", width: "100px", height: "100px" }}>
+                <img
+                  src={src}
+                  alt={`Preview ${idx + 1}`}
+                  style={{ width: "100%", height: "100%", objectFit: "cover", borderRadius: "8px", border: "1px solid #ccc" }}
+                />
+              </div>
+            ))}
+          </div>
+        )}
         <div style={{ marginBottom: "1rem" }}>
           {[1, 2, 3, 4, 5].map((star) => (
             <span

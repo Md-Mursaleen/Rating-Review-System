@@ -13,6 +13,7 @@ export default function Product({ id, data }) {
   const [submitted, setSubmitted] = useState(false);
   const [photos, setPhotos] = useState([]);
   const [photoURLs, setPhotoURLs] = useState([]);
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     if (submitted) {
@@ -52,6 +53,15 @@ export default function Product({ id, data }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    const alreadyReviewed = reviews.some(
+      (rev) => rev.name.trim().toLowerCase() === name.trim().toLowerCase()
+    );
+
+    if (alreadyReviewed) {
+      setShowModal(true);
+      return;
+    }
 
     const formData = new FormData();
     formData.append('name', name);
@@ -192,6 +202,35 @@ export default function Product({ id, data }) {
 
         <Button type="submit">Submit Review</Button>
       </form>
+
+      {showModal && (
+        <div style={{
+          position: "fixed",
+          top: 0, left: 0, right: 0, bottom: 0,
+          display: "flex", alignItems: "center", justifyContent: "center",
+          background: "rgba(0,0,0,0.4)",
+          zIndex: 1000
+        }}>
+          <div style={{
+            padding: "2rem",
+            background: "#fff",
+            borderRadius: "8px",
+            boxShadow: "0 2px 8px rgba(0,0,0,0.2)",
+            textAlign: "center"
+          }}>
+            <h3 style={{ marginBottom: "1rem" }}>You have already reviewed this product.</h3>
+            <button onClick={() => setShowModal(false)} style={{
+              padding: "0.5rem 1.5rem",
+              background: "#ffc107",
+              fontWeight: "bold",
+              color: "#222",
+              borderRadius: "6px",
+              border: "none",
+              cursor: "pointer"
+            }}>OK</button>
+          </div>
+        </div>
+      )}
 
       {submitted && (
         <p style={{ color: "green", marginTop: "10px" }}>

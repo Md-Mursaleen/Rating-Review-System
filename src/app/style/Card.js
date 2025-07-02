@@ -6,7 +6,7 @@ export const Card = styled.div`
   width: 100%;    
   display: flex;
   flex-direction: column;
-  background-color: #ffffff;
+  background-color: #fff;
   gap: 10px;
   border: 1px solid rgba(192, 192, 192, 0.32);
 

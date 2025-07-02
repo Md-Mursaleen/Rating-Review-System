@@ -12,7 +12,7 @@ export const Button = styled.button`
   margin-top: 10px;
   padding: 10px 20px;
   border-radius: 6px;
-  background-color: #000000;
+  background-color: #000;
   color: white;
   border: none;
   cursor: pointer;
@@ -31,7 +31,7 @@ export const ReviewBox = styled.div`
   width: 250px;
   margin-right: 1rem;
   padding: 1rem;
-  border: 1px solid #cccccc;
+  border: 1px solid #ccc;
   border-radius: 8px;
   background-color: #f9f9f9;
   @media (max-width: 768px) {
